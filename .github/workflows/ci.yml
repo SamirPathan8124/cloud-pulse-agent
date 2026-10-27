@@ -1,0 +1,32 @@
+name: infra-ci
+on:
+  pull_request:
+    paths: ["infra/**"]
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+      - name: fmt
+        run: terraform fmt -check -recursive
+        working-directory: infra
+      - name: validate
+        run: |
+          terraform init -backend=false
+          terraform validate
+        working-directory: infra
+      - uses: terraform-linters/setup-tflint@v4
+      - name: tflint
+        run: |
+          tflint --init
+          tflint
+        working-directory: infra
+      - name: checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: infra
+          framework: terraform
+          soft_fail: true
