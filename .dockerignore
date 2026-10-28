@@ -1,0 +1,10 @@
+.env
+.venv
+.git
+.github
+bootstrap
+docs
+*.tfstate
+*.tfstate.backup
+.terraform
+__pycache__

@@ -26,4 +26,14 @@ def open_pr(path, new_content, alert, triage, memory, review):
     )
     pr = repo.create_pull(title="Agent fix: " + str(triage.get("action"))[:70],
                           body=body, head=branch, base="main")
+    try:
+        from notify import notify
+        notify("Cloud-Pulse: agent fix needs your approval",
+               [f"Alert: {alert}", f"Severity: {triage.get('severity')}",
+                f"Action: {triage.get('action')}",
+                "CI checks are running. Review the PR, then merge or close it."],
+               pr.html_url)
+    except Exception as e:
+        print("[notify] failed:", e)
     return pr.html_url
+
