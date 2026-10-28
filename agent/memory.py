@@ -10,7 +10,7 @@ COLLECTION = "incident_memory"
 DIM = 768
 
 g = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-q = QdrantClient(url=os.getenv("QDRANT_URL"), api_key=os.getenv("QDRANT_API_KEY"))
+q = QdrantClient(url=(os.getenv("QDRANT_URL") or "").strip(), api_key=(os.getenv("QDRANT_API_KEY") or "").strip())
 
 
 def embed(text: str) -> list[float]:
