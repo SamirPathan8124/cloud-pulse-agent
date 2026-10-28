@@ -36,7 +36,7 @@ resource "aws_iam_role" "plan" {
       Action    = "sts:AssumeRoleWithWebIdentity"
       Condition = {
         StringEquals = { "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com" }
-        StringLike   = { "token.actions.githubusercontent.com:sub" = "repo:SamirPathan8124/cloud-pulse-agent:*" }
+        StringLike   = { "token.actions.githubusercontent.com:sub" = ["repo:SamirPathan8124/cloud-pulse-agent:pull_request", "repo:SamirPathan8124@*/cloud-pulse-agent@*:pull_request"] }
       }
     }]
   })
@@ -50,3 +50,4 @@ resource "aws_iam_role_policy_attachment" "readonly" {
 output "plan_role_arn" {
   value = aws_iam_role.plan.arn
 }
+
