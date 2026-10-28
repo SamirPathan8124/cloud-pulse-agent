@@ -31,7 +31,7 @@ def retrieve(state: State) -> State:
 def triage(state: State) -> State:
     prompt = f"""You are an SRE triage agent.
 Alert: {state['alert']}
-Similar past incidents (outcome 'failed' means that fix did NOT work): {state['memory']}
+Similar past incidents (outcome 'failed' or 'rejected' means that fix did not work or a human rejected it): {state['memory']}
 Current Terraform:
 {state['original']}
 
