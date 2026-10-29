@@ -1,0 +1,43 @@
+name: deploy
+on:
+  push:
+    branches: [main]
+    paths: ["infra/**"]
+  workflow_dispatch:
+concurrency:
+  group: terraform-apply
+  cancel-in-progress: false
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: discord approval request
+        env:
+          HOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -n "$HOOK" ]; then
+            curl -sS -H "Content-Type: application/json" -d "{\"content\":\"Cloud-Pulse: terraform apply is waiting for your approval\\n$RUN\"}" "$HOOK"
+          fi
+  apply:
+    needs: notify
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_APPLY_ROLE_ARN }}
+          aws-region: us-east-1
+      - name: terraform apply
+        working-directory: infra
+        run: |
+          terraform init -input=false
+          terraform plan -no-color -input=false -out=tfplan
+          terraform apply -input=false tfplan

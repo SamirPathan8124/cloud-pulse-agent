@@ -51,3 +51,40 @@ output "plan_role_arn" {
   value = aws_iam_role.plan.arn
 }
 
+
+resource "aws_iam_role" "apply" {
+  name = "cloud-pulse-apply-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { Federated = local.oidc_arn }
+      Action    = "sts:AssumeRoleWithWebIdentity"
+      Condition = {
+        StringEquals = { "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com" }
+        StringLike = { "token.actions.githubusercontent.com:sub" = [
+          "repo:SamirPathan8124/cloud-pulse-agent:environment:production",
+          "repo:SamirPathan8124@*/cloud-pulse-agent@*:environment:production"
+        ] }
+      }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "apply" {
+  name = "cloud-pulse-apply"
+  role = aws_iam_role.apply.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      { Effect = "Allow", Action = ["ec2:*", "cloudwatch:*", "sns:*", "sqs:*"], Resource = "*" },
+      { Effect = "Allow", Action = ["ssm:GetParameter", "ssm:GetParameters"], Resource = "*" },
+      { Effect = "Allow", Action = ["s3:ListBucket"], Resource = "arn:aws:s3:::cloud-pulse-tfstate-samir-8124" },
+      { Effect = "Allow", Action = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"], Resource = "arn:aws:s3:::cloud-pulse-tfstate-samir-8124/*" }
+    ]
+  })
+}
+
+output "apply_role_arn" {
+  value = aws_iam_role.apply.arn
+}
