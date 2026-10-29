@@ -4,7 +4,7 @@ data "aws_ssm_parameter" "al2023" {
 
 resource "aws_instance" "web" {
   ami           = data.aws_ssm_parameter.al2023.value
-  instance_type = "t3.small"
+  instance_type = "t3.medium"
   tags          = { Name = "cloud-pulse-web" }
   lifecycle {
     ignore_changes = [ami]
