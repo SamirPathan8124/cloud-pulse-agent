@@ -319,11 +319,6 @@ Possible next steps: alert deduplication, more resource types, a narrower plan r
 ![Discord](docs/screenshots/09-discord-test.png)
 
  |
-| Deploy waiting for approval | 
-
-![Approval](docs/screenshots/09c-waiting-approval.png)
-
- |
 | Dashboard | 
 
 ![Dashboard](docs/screenshots/10b-dashboard.png)
