@@ -1,0 +1,26 @@
+{
+ "0:memory": {
+  "direction": "bigger",
+  "approved": true,
+  "attempts": 1,
+  "seconds": 5.9
+ },
+ "0:no_memory": {
+  "direction": "bigger",
+  "approved": true,
+  "attempts": 1,
+  "seconds": 4.4
+ },
+ "1:memory": {
+  "direction": "bigger",
+  "approved": true,
+  "attempts": 1,
+  "seconds": 7.0
+ },
+ "1:no_memory": {
+  "direction": "bigger",
+  "approved": true,
+  "attempts": 1,
+  "seconds": 5.0
+ }
+}
