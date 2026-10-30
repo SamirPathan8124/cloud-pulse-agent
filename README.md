@@ -277,58 +277,35 @@ Approximate figures for us-east-1, mostly pay-as-you-go:
 Possible next steps: alert deduplication, more resource types, a narrower plan role, hosting the worker on a managed container service and chat-based approvals through a bot.
 
 ## Screenshots
+
 | Step | Screenshot |
 |---|---|
-| Agent opens a PR | 
+| CI on every agent PR: fmt, validate, tflint, Checkov and a Terraform plan through OIDC | 
 
-![PR](docs/screenshots/05-pr-page.png)
-
- |
-| One-line diff | 
-
-![Diff](docs/screenshots/05-pr-diff.png)
+![](docs/screenshots/0.10-ci-all-green.png)
 
  |
-| CI checks | 
+| A human reviews and merges the agent's pull request | 
 
-![CI](docs/screenshots/05-ci-checks.png)
-
- |
-| Terraform plan comment | 
-
-![Plan](docs/screenshots/05b-plan-comment.png)
+![](docs/screenshots/0.12-merged.png)
 
  |
-| Worker handles an alert | 
+| The PR outcome is written back to memory (self-learning) | 
 
-![Worker](docs/screenshots/06-worker-alert.png)
-
- |
-| Learning from a PR outcome | 
-
-![Learn](docs/screenshots/07-learn-action.png)
+![](docs/screenshots/0.14-learn-action.png)
 
  |
-| FinOps scan | 
+| FinOps scan finds an idle instance (0.2 percent CPU) | 
 
-![FinOps](docs/screenshots/08-finops-report.png)
-
- |
-| Discord notification | 
-
-![Discord](docs/screenshots/09-discord-test.png)
+![](docs/screenshots/0.15-finops-report.png)
 
  |
-| Deploy waiting for approval | 
+| Approval-gated terraform apply | 
 
-![Approval](docs/screenshots/09c-waiting-approval.png)
-
- |
-| Dashboard | 
-
-![Dashboard](docs/screenshots/10b-dashboard.png)
+![](docs/screenshots/0.22-apply-complete.png)
 
  |
 
 ## Author
 **Samir Pathan** | [GitHub](https://github.com/SamirPathan8124) | [LinkedIn](https://www.linkedin.com/in/samir-pathan-218b84239)
+
